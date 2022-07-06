@@ -44,3 +44,15 @@ MYSQL_RES *SqlSelect(char *query){
   closeConnexion(con); // On ferme la connexion à la BDD
   return sqlResult; // On renvois le résultat
 }
+
+int erreurFichier(FILE *monFichier)
+{
+    if (monFichier == NULL)
+    {
+        int erreur = errno;
+        printf("Erreur d'ouverture %d.\n", erreur);
+        perror("Erreur détaillée: ");
+        return true;
+    }
+    return false;
+}
