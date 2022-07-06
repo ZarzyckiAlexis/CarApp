@@ -1,0 +1,71 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Compiler le fichier actif",
+			"command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+			"args": [
+				"-g",
+				"${file}",
+				"-isystem",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/include/",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"-L",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
+				"-l",
+				"libmariadb"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+        {
+            "type": "cppbuild",
+            "label": "Compiler Test Versions",
+            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\tests\\testsVersions.c",
+                "-isystem",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/include/",
+                "${workspaceFolder}\\unity\\*.c",
+                "${workspaceFolder}\\includes\\versions.c",
+                "${workspaceFolder}\\includes\\versions.h",
+                "-o",
+                "${workspaceFolder}\\tests\\versions.exe",
+                "-L",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
+				"-l",
+				"libmariadb"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "process",
+            "label": "Executer les tests Versions",
+            "command": "${workspaceFolder}\\tests\\versions.exe",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+	]
+}
