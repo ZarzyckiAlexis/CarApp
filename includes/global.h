@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <mysql.h>
+#include <stdbool.h>
 #define DB_NAME "projet" // Le nom de la base de données
 
 int erreurFichier(FILE *monFichier);
-void initConnexion(MYSQL *sqlConnexion);
-void closeConnexion(MYSQL *sqlConnexion);
+void initConnexion();
+void closeConnexion();
 MYSQL_RES *SqlSelect(char *query);
