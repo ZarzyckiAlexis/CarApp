@@ -5,6 +5,7 @@
         "global.h": "c",
         "versions.h": "c",
         "stdlib.h": "c",
-        "unity.h": "c"
+        "unity.h": "c",
+        "moteurs.h": "c"
     }
 }
