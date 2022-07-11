@@ -67,5 +67,46 @@
             "group": "test",
             "problemMatcher": []
         },
+        {
+            "type": "cppbuild",
+            "label": "Compiler Test Moteurs",
+            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\tests\\testsMoteurs.c",
+                "-isystem",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/include/",
+                "${workspaceFolder}\\unity\\*.c",
+                "${workspaceFolder}\\includes\\moteurs.c",
+                "${workspaceFolder}\\includes\\moteurs.h",
+                "${workspaceFolder}\\includes\\global.c",
+                "${workspaceFolder}\\includes\\global.h",
+                "-o",
+                "${workspaceFolder}\\tests\\testMoteurs.exe",
+                "-L",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
+				"-l",
+				"libmariadb"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "process",
+            "label": "Executer les tests Moteurs",
+            "command": "${workspaceFolder}\\tests\\testMoteurs.exe",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
 	]
 }

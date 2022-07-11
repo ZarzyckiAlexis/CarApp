@@ -8,4 +8,6 @@
 int erreurFichier(FILE *monFichier);
 void initConnexion();
 void closeConnexion();
+int *TableExist(char *query);
 MYSQL_RES *SqlSelect(char *query);
+void executerCommandeSQL(char *instructionSQL);

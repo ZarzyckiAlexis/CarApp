@@ -78,6 +78,16 @@ int *TableExist(char *query){
   return result; // On renvois le résultat
 }
 
+void executerCommandeSQL(char *instructionSQL) // Exécution de chaine de commande SQL
+{
+    if (mysql_query(con, instructionSQL))
+    {
+        fprintf(stderr, "%s\n", mysql_error(con));
+        mysql_close(con);
+        exit(EXIT_FAILURE);
+    }
+}
+
 int erreurFichier(FILE *monFichier)
 {
     if (monFichier == NULL)
