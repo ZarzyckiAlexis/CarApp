@@ -10,3 +10,7 @@ int existTableVersions();
 // Fonction qui permet la création de la table version 
 // [ -1 = EXISTE DÉJÀ ; 1 = REUSSI ; 0 = RATÉ CRÉATION TABLE ; 2 = RATÉ AJOUT DONNÉES ]
 int createTableVersions();
+
+// Fonction qui permet de vérifier si la table est vide
+// [ -1 = TABLE EXISTE PAS ; 0 = PAS VIDE ; 1 = VIDE ]
+int isTableEmptyVersions();
