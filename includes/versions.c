@@ -52,3 +52,21 @@ int createTableVersions(){
         return -1;
     }
 }
+
+int isTableEmptyVersions(){
+    if(existTableVersions() == 1){ // La table existe
+        MYSQL_RES *sqlResult = SqlSelect("select * from `versions`"); // On effectue la requête
+        MYSQL_ROW sqlRow;
+        int result = 1; // On définit la valeur de base à 1
+        while (sqlRow = mysql_fetch_row(sqlResult)){
+            int row = atoi(sqlRow[0]); // On récupère le nombre de lignes 
+            if(row >= 1){ // On regarde si il y'a 0 lignes
+                result = 0; // Table vide
+            }
+        }
+        return result;
+    }
+    else{
+        return -1; // On renvois -1 => la table n'existe pas.
+    }
+}
