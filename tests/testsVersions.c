@@ -44,6 +44,25 @@ void testTableNotEmpty(){
     TEST_ASSERT_EQUAL(0, resultat); // Non, elle retourne 0
 }
 
+// test sur le garnissage du tableau des versions
+
+void testTableVersions(){
+    char *nomVersions = (char *)malloc(50); // On alloue en mémoire le nom de la version souhaitée
+    char versions[100][100]; // On initialise le tableau
+    int *nbElements = (int *)malloc(sizeof(int)); // On alloue en mémoire le nombre d'éléments dans le tableau
+    int result = 0; // On affecte le résultat à 0 par défaut, on part sur une base "non trouvée"
+    strcpy(nomVersions, "1.1 essence"); // On rentre le nom de la version codée en dur
+    getVersions(versions, nbElements); // On récupère les versions dans la DB
+    for(int i=0; i<*nbElements; i++){ // On boucle jusqu'au dernier éléments du tableau
+        if(strcmp(versions[i], nomVersions) == 0){ // On vérifie si l'élément en cours est égal à celui souhaité
+            result = 1; // On à trouvé, on retourne 1
+        }
+    }
+    TEST_ASSERT_EQUAL(1, result); // C'est bon
+    free(nomVersions); // On s'occupe de désalloué l'emplacement mémoire après l'éxécution du programme de test
+    free(nbElements);
+}
+
 
 
 int main(void){
@@ -53,6 +72,7 @@ int main(void){
     RUN_TEST(testExistTableVersions);
     RUN_TEST(testTableNotEmpty);
     RUN_TEST(testTableEmpty);
+    RUN_TEST(testTableVersions);
     UNITY_END();
     return 0;
 }
