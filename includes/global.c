@@ -80,12 +80,14 @@ int *TableExist(char *query){
 
 void executerCommandeSQL(char *instructionSQL) // Exécution de chaine de commande SQL
 {
+    initConnexion(con);
     if (mysql_query(con, instructionSQL))
     {
         fprintf(stderr, "%s\n", mysql_error(con));
         mysql_close(con);
         exit(EXIT_FAILURE);
     }
+    closeConnexion(con);
 }
 
 int erreurFichier(FILE *monFichier)
