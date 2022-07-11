@@ -70,3 +70,35 @@ int isTableEmptyVersions(){
         return -1; // On renvois -1 => la table n'existe pas.
     }
 }
+
+void getVersions(char versions[][100], int *count){
+    if(existTableVersions() == 1){ // La table existe!
+        // Lecture de la table
+        MYSQL_RES *sqlResult = SqlSelect("SELECT * FROM versions ORDER BY nomMarque, nomModele");
+        int nombreMax = 100;
+        int nombreCurrent = 0;
+        char *versionsTable = (char *) malloc(nombreMax);
+        MYSQL_ROW sqlRow;
+        while (sqlRow = mysql_fetch_row(sqlResult))
+        {
+            // Lecture du contenu ligne par ligne et conversion dans les types
+            char *currentResult = (char *)malloc(strlen(sqlRow[0] + 1));
+            strcpy(currentResult, sqlRow[1]);
+            // Extension de la table si necessaire
+            if (nombreCurrent >= nombreMax){
+                nombreMax += 10;
+                versionsTable = realloc(versionsTable, nombreMax);
+            }
+            // Ajout dans la table
+            strcpy(versionsTable, currentResult);
+            for(int x=0;x<100; x++){
+                versions[nombreCurrent][x] = versionsTable[x];   
+            }
+            nombreCurrent++;
+        }
+        // Libération memoire du resultat SQL
+        mysql_free_result(sqlResult);
+        *count = nombreCurrent;
+    }
+}
+

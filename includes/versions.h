@@ -14,3 +14,6 @@ int createTableVersions();
 // Fonction qui permet de vérifier si la table est vide
 // [ -1 = TABLE EXISTE PAS ; 0 = PAS VIDE ; 1 = VIDE ]
 int isTableEmptyVersions();
+
+// Fonction qui permet de garnir un tableau des données présente dans la base de données
+void getVersions(char versions[][100], int *count);
