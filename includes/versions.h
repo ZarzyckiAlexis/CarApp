@@ -6,3 +6,7 @@
 // Fonction qui permet la vérification de l'existence de la table version 
 // [ 1 = EXISTE ; 0 = N'EXISTE PAS ]
 int existTableVersions();
+
+// Fonction qui permet la création de la table version 
+// [ -1 = EXISTE DÉJÀ ; 1 = REUSSI ; 0 = RATÉ CRÉATION TABLE ; 2 = RATÉ AJOUT DONNÉES ]
+int createTableVersions();
