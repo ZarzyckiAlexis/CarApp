@@ -13,15 +13,25 @@ void setUp (void) {
 
 void testCreationTableMoteurs (void){
 
-    int *resultat = malloc(sizeof(int));
+    int *exist = malloc(sizeof(int));
+    int resultat;
 
     setUp();
 
-    creationTableMoteurs();
+    exist = TableExist("SELECT 1 FROM moteurs LIMIT 1");
 
-    resultat = TableExist("SELECT 1 FROM moteurs LIMIT 1");
+    if (*exist == 1){
+        initConnexion();
+        executerCommandeSQL ("DROP TABLE moteurs");
+        closeConnexion();
+    }
+
+    resultat = creationTableMoteurs();
+
     
-    TEST_ASSERT_EQUAL_INT( 1, *resultat);
+    TEST_ASSERT_EQUAL_INT( 1, resultat);
+
+    free(exist);
 
 }
 

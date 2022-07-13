@@ -1,4 +1,4 @@
 #include "global.h"
 
 
-void creationTableMoteurs (void);
+int creationTableMoteurs (void);

@@ -83,7 +83,7 @@
                 "${workspaceFolder}\\includes\\global.c",
                 "${workspaceFolder}\\includes\\global.h",
                 "-o",
-                "${workspaceFolder}\\tests\\testMoteurs.exe",
+                "${workspaceFolder}\\tests\\testsMoteurs.exe",
                 "-L",
 				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
 				"-l",
@@ -100,7 +100,48 @@
         {
             "type": "process",
             "label": "Executer les tests Moteurs",
-            "command": "${workspaceFolder}\\tests\\testMoteurs.exe",
+            "command": "${workspaceFolder}\\tests\\testsMoteurs.exe",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "type": "cppbuild",
+            "label": "Compiler Test VersionsMoteurs",
+            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\tests\\testsVersionsMoteurs.c",
+                "-isystem",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/include/",
+                "${workspaceFolder}\\unity\\*.c",
+                "${workspaceFolder}\\includes\\versionsMoteurs.c",
+                "${workspaceFolder}\\includes\\versionsMoteurs.h",
+                "${workspaceFolder}\\includes\\global.c",
+                "${workspaceFolder}\\includes\\global.h",
+                "-o",
+                "${workspaceFolder}\\tests\\testsVersionsMoteurs.exe",
+                "-L",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
+				"-l",
+				"libmariadb"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "process",
+            "label": "Executer les tests VersionsMoteurs",
+            "command": "${workspaceFolder}\\tests\\testsVersionsMoteurs.exe",
             "args": [],
             "options": {
                 "cwd": "${workspaceFolder}"

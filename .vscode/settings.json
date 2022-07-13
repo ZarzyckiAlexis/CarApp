@@ -6,6 +6,8 @@
         "versions.h": "c",
         "stdlib.h": "c",
         "unity.h": "c",
-        "moteurs.h": "c"
+        "moteurs.h": "c",
+        "versionsMoteurs.h": "c"
+
     }
 }
