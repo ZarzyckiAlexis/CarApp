@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #define DB_NAME "projet" // Le nom de la base de données
 
-int erreurFichier(FILE *monFichier);
+int erreurFichier(FILE *monFichier, int showText);
 // Fonction qui permet la connexion à la base de données
 void initConnexion();
 // Fonction qui permet la déconnexion à la base de données
