@@ -1,6 +1,7 @@
 #include "global.h"
 
 MYSQL *con = NULL;
+
 // Permet de se connecter à la base de données
 void initConnexion(){
   con = mysql_init(NULL);
@@ -48,6 +49,7 @@ MYSQL_RES *SqlSelect(char *query){
   return sqlResult; // On renvois le résultat
 }
 
+// Permet de vérifier si une table existe
 int *TableExist(char *query){
   // Executer la requête
   initConnexion(con);
@@ -78,22 +80,27 @@ int *TableExist(char *query){
   return result; // On renvois le résultat
 }
 
+// Permet d'exectuer une instruction SQL
 void executerCommandeSQL(char *instructionSQL) // Exécution de chaine de commande SQL
 {
-    initConnexion(con);
+    initConnexion();
     if (mysql_query(con, instructionSQL))
     {
         fprintf(stderr, "%s\n", mysql_error(con));
         mysql_close(con);
         exit(EXIT_FAILURE);
     }
-    closeConnexion(con);
+    closeConnexion();
 }
 
-int erreurFichier(FILE *monFichier)
+// Permet de vérifier si on à pas une erreur au niveau d'un fichier
+int erreurFichier(FILE *monFichier, int showText)
 {
     if (monFichier == NULL)
     {
+        if(showText == 0){ // Permet de ne pas afficher les erreurs dans la console
+            return true;
+        }
         int erreur = errno;
         printf("Erreur d'ouverture %d.\n", erreur);
         perror("Erreur détaillée: ");

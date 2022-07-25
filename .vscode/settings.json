@@ -7,7 +7,7 @@
         "stdlib.h": "c",
         "unity.h": "c",
         "moteurs.h": "c",
-        "versionsMoteurs.h": "c"
-
+        "versionsMoteurs.h": "c",
+        "typeinfo": "c"
     }
 }
