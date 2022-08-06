@@ -108,3 +108,46 @@ int erreurFichier(FILE *monFichier, int showText)
     }
     return false;
 }
+
+int *isDataPresent(char *query){
+  // Executer la requête
+  initConnexion(con);
+  int *result = malloc(sizeof(int));
+  *result = 0;
+  if (mysql_query(con, query)){ // Si une erreur est présente
+    fprintf(stderr, "%s\n", mysql_error(con)); // Affichage de l'erreur
+    mysql_close(con); // On ferme la connexion
+    exit(EXIT_FAILURE); // On quitte en erreur
+  }
+  // Stocker le resultat de la requête
+  MYSQL_RES *sqlResult = mysql_store_result(con); // On store le resultat de la requete
+  if (sqlResult == NULL){ // Si il est null
+    fprintf(stderr, "%s\n", mysql_error(con)); // Affichage de l'erreur
+    printf("%d", mysql_errno(con));
+    mysql_close(con); // On ferme la connexion
+    exit(EXIT_FAILURE); // On quitte en erreur
+  }
+  MYSQL_ROW sqlRow;
+  char res = -1;
+  while (sqlRow = mysql_fetch_row(sqlResult)){
+    res = atoi(sqlRow[0]);
+  }
+  *result = res;
+  // Tout c'est bien passer
+  closeConnexion(con); // On ferme la connexion à la BDD
+  return result; // On renvois le résultat
+}
+
+void destroyAllTable(){
+    int *resultat = TableExist("SELECT 1 FROM versions_moteurs LIMIT 1");
+    if(*resultat == 1){
+        executerCommandeSQL("DROP TABLE versions_moteurs");
+    }
+    if(existTableVersions()){
+        executerCommandeSQL("DROP TABLE versions");
+    }
+    resultat = TableExist("SELECT 1 FROM moteurs LIMIT 1");
+    if (*resultat == 1){
+        executerCommandeSQL("DROP TABLE moteurs");
+    }
+}

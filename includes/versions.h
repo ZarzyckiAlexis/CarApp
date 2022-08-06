@@ -17,3 +17,7 @@ int isTableEmptyVersions();
 
 // Fonction qui permet de garnir un tableau des données présente dans la base de données
 void getVersions(char versions[][100], int *count);
+
+// Fonction qui permet d'ajouté une version dans la base de données
+// [ ERRORS retourne une chaine de caractère contenant les erreurs ]
+void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *errors);

@@ -17,3 +17,7 @@ int *TableExist(char *query);
 MYSQL_RES *SqlSelect(char *query);
 // Fonction qui permet d'éxécuté une requête SQL et ne renvois pas le résultat
 void executerCommandeSQL(char *instructionSQL);
+// Fonction qui permet de supprimer toutes les tables de la BDD
+void destroyAllTable();
+// Fonction qui permet de voir si une données est présent dans la table
+int isDataPresent(char *query);
