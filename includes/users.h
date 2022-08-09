@@ -25,6 +25,9 @@ void lister_uti();
 // fonction pour l'ajout
 void menu_ajouter(char *rang);
 unsigned ajouter(FILE *fichier,char *log, char *mdp, int dim, char *rang);
+// fonction pour la suppression
+unsigned menu_supprimer();
+unsigned supprimer(FILE *fichier, char *log, int dim);
 // fonction commune
 unsigned check_existe(char *log, int dim, FILE *fichier);
 void chiffrement(char *log, char *mdp, int dim);
