@@ -303,3 +303,130 @@ unsigned supprimer(FILE *fichier, char *log, int dim)
         }
     }
 }
+/*FONCTION DE MODIFICATION*/
+unsigned menu_modifier()
+{
+    // DECLARATION DES VARIABLES
+    FILE *fichier;
+    char log_actu[DIM]; // 61 car on doit garder un caractere en plus pour le caractere de fin et le =Log ou =LogAdmin
+    char log[DIM];      // 61 car on doit garder un caractere en plus pour le caractere de fin et le =Log ou =LogAdmin
+    char mdp[DIM];      // 61 car on doit garder un caractere en plus pour le caractere de fin et le =MPD
+    char verif[1] = {"0"};
+    int returned;
+    // TRAITEMENT
+    printf("\t\tMODIFIER UN UTILISATEUR\n");
+    printf("\t\t======================");
+    // On demande le nom de l'utilisateur
+    printf("\n\nQuel est le nom de l'utilisateur a modifier :\t");
+    fflush(stdin);
+    scanf("%s", &log_actu);
+    if (strcmp(verif, log_actu) == 0)
+    {
+        printf("Vous avez annule(e) le processus");
+        return 0;
+    }
+    if (strlen(log_actu) > 50)
+    {
+        printf("\nVotre nom d'utilisateur doit faire 50 caracteres ou moins");
+        return 0;
+    }
+    fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
+    rewind(fichier);
+    returned = check_existe(log_actu, DIM, fichier);
+    if (returned == LIBRE_VIDE)
+    {
+        printf("\nCe nom d'utilisateur N'existe PAS.\n\n");
+        fclose(fichier);
+        if (fclose(fichier)==0)
+        {
+            return 0;
+        }
+    }
+    // Si on voit qu'il est admin on lui demande de "se connecter" pour voir si c'est bien lui
+    // Choix du nouveau nom d'utilsateur
+    printf("\nQuel est le nouveau nom d'utilisateur :\t");
+    fflush(stdin);
+    scanf("%s", &log);
+    // Choix du nouveau mdp
+    printf("\nQuel est le nouveau mot de passe :\t");
+    fflush(stdin);
+    scanf("%s", &mdp);
+    // Appel de la fonction de modification
+    if (modifier(fichier, log_actu, log, mdp, DIM) == 0)
+    {
+        printf("\nAucune information n'a ete modifier");
+    }
+}
+/*FONCTION POUR MODOFIER*/
+unsigned modifier(FILE *fichier, char *log_actu, char *log, char *mdp, int dim)
+{
+    // DECLARATIONS DES VARIABLES
+    char log_change[dim];
+    char mdp_change[dim];
+    char cpy_log_actu[dim];
+    char verif[1] = {"0"};
+    unsigned short returned;
+    // TRAITEMENT
+    strcpy(cpy_log_actu, log_actu);
+    strcpy(log_change, log);
+    strcpy(mdp_change, mdp);
+    // On regarde si le compte de l'utilisateur est ok
+    if (strcmp(verif, log_change) == 0 || strcmp(verif, mdp_change) == 0)
+    {
+        printf("Vous avez annule(e) de le processus !");
+        if (fclose(fichier)==0)
+        {
+            return 0;
+        }
+    }
+    returned = check_existe(log_change, DIM, fichier);
+    if (returned >= SIMPLE)
+    {
+        printf("Ce nom d'utilisateur N'est PAS disponible.");
+        if (fclose(fichier)==0)
+        {
+            return 0;
+        }
+    }
+    if (strlen(log_change) > 50)
+    {
+        printf("Votre nom d'utilisateur doit faire 50 caracteres ou moins");
+        if (fclose(fichier)==0)
+        {
+            return 0;
+        }
+    }
+    if (strlen(mdp_change) > 50)
+    {
+        printf("Votre mot de passe doit faire 50 caracteres ou moins");
+        if (fclose(fichier)==0)
+        {
+            return 0;
+        }
+    }
+    returned = check_existe(cpy_log_actu, dim, fichier);
+    if (returned == ADMIN)
+    {
+        supprimer(fichier, cpy_log_actu, dim);
+        fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
+        rewind(fichier);
+        ajouter(fichier, log_change, mdp_change, dim, "=LogAdmin");
+        if (fclose(fichier) == 0)
+        {
+            printf("Vos informations ont ete changees\n");
+            return 1;
+        }
+    }
+    else if (returned == SIMPLE)
+    {
+        supprimer(fichier, cpy_log_actu, dim);
+        fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
+        rewind(fichier);
+        ajouter(fichier, log_change, mdp_change, dim, "=Log");
+        if (fclose(fichier) == 0)
+        {
+            printf("Les informations ont ete changees");
+            return 1;
+        }
+    }
+}
