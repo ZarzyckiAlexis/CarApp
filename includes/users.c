@@ -172,3 +172,134 @@ void chiffrement(char *log, char *mdp, int dim)
         
     }
 }
+/*FONCTION DE SUPRESSION*/
+unsigned menu_supprimer()
+{
+    // DECLARATION DES VARIABLES
+    FILE *fichier;
+    char rep;
+    char log[DIM]; // 55 car on doit garder un caractere en plus pour le caractere de fin et le =log
+    char mdp[DIM]; // 55 car on doit garder un caractere en plus pour le caractere de fin et le =mdp
+    int returned = 0;
+
+    // TRAITEMENT
+
+    printf("\t\tSUPPRIMER UN UTILISATEUR\n");
+    printf("\t=====================================");
+
+    // Verifie si le log existe
+    printf("\n\nQuel est le nom de l'utilisateur a supprimer :\t");
+    fflush(stdin);
+    scanf("%s", &log);
+    // Demande a l'utilsateur s'il est sur de supprimer
+    do
+    {
+        printf("Voulez-vous supprimer l'utilisateur\t(Y=yes\tor\tN=no) :\t");
+        fflush(stdin);
+        scanf("%c", &rep);
+        fichier = fopen(NAME_FICHIER, "r"); // Ouverture du fichier
+        rewind(fichier);
+        returned=check_existe(log,DIM, fichier);
+        //Si la reponse est Y et que l'utilisateur est un simple on supprime
+        if ((toupper(rep)) == 'Y' && (returned==LIBRE_VIDE || returned ==SIMPLE))
+        {
+            if (!supprimer(fichier, log, DIM))
+            {
+                printf("\nL'utilisateur n'a pas pu etre supprimer !");
+            }else{
+                printf("\nL'utilisateur a ete supprime(e) !");
+            }
+            printf("\nAppuyer sur une touche pour continuer !");
+            getch();
+        }//Sinon on fait rien
+        else if ((toupper(rep)) == 'N')
+        {
+            printf("\nVous avez decider de ne pas supprimer l'utilisateur !");
+            printf("\nAppuyer sur une touche pour continuer !");
+            getch();
+            if(fclose(fichier)==0){
+                return 0;
+            }
+        }
+        else //Sinon c'est que c'est un admin et on ne peut pas le supprimer
+        {
+            printf("Vous ne pouvez pas supprimer un administateur !");
+            if(fclose(fichier)==0){
+                return 0;
+            }
+        }
+    } while (toupper(rep) != 'Y' && toupper(rep) != 'N');
+}
+
+unsigned supprimer(FILE *fichier, char *log, int dim)
+{
+    // DECLARATION DES VARIABLES
+    char buff[dim];
+    FILE *newfichier;
+    char log_uti[dim];
+    char log_admin[dim];
+    char verif[1] = {"0"};
+    unsigned short returned;
+    // TRAITEMENT
+    strcpy(log_uti, log);
+    strcpy(log_admin, log);
+    //On verifie que l'utilisateur ne veut pas annuler
+    if (strcmp(verif, log_uti) == 0)
+    {
+        printf("Vous avez annule(e) le processus");
+        if(fclose(fichier)==0){
+            return 0;
+        }
+    }
+    //On regarde si l'utilisateur existe
+    returned = check_existe(log, DIM, fichier);
+    if (returned == LIBRE_VIDE)
+    {
+        printf("\nCe nom d'utilisateur N'existe PAS.\n\n");
+        if(fclose(fichier)==0){
+            return 0;
+        }
+    }
+    //On regarde si le log fait moins de 51 caracteres
+    if (strlen(log) > 50)
+    {
+        printf("\nVotre nom d'utilisateur doit faire 50 caracteres ou moins");
+        if(fclose(fichier)==0){
+            return 0;
+        }
+    }
+    else
+    {
+        strcat(log_uti, "=Log");        // Permet de concat?nner deux cha?nes de caract?res
+        strcat(log_admin, "=LogAdmin"); // Permet de concat?nner deux cha?nes de caract?res
+        //On va cree un nouveau fichier
+        newfichier = fopen("users2.txt", "w");
+        //on remonte en haut des deux fichier au cas ou
+        rewind(fichier);
+        rewind(newfichier);
+        // Boucle pour faire tout le fichier
+        while (fscanf(fichier, "%s", buff) != EOF) 
+        {
+            //On compare le buff qui contient la ligne actuel avec le log dans ses deux versions si oui on fscanf pour eviter le log
+            if (strcmp(buff, log_uti) == 0 || strcmp(buff, log_admin) == 0)
+            {
+                fscanf(fichier, "%s", buff);
+            }
+            else
+            {
+                fprintf(newfichier, "%s\n", buff);
+            }
+        }
+        // Fermeture des fichier pour les modifier
+        if (fclose(fichier) == 0 && fclose(newfichier) == 0)
+        {
+            if (remove(NAME_FICHIER)==0)
+            {
+                if (rename("users2.txt", NAME_FICHIER)==0)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+}
