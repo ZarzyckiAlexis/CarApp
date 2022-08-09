@@ -27,13 +27,6 @@ void testCreationTableMoteurs(void)
 
     exist = TableExist("SELECT 1 FROM moteurs LIMIT 1");
 
-    if (*exist == 1)
-    {
-        initConnexion();
-        executerCommandeSQL("DROP TABLE moteurs");
-        closeConnexion();
-    }
-
     resultat = creationTableMoteurs();
 
     TEST_ASSERT_EQUAL_INT(1, resultat);
@@ -124,7 +117,7 @@ int main(void)
 
     UNITY_BEGIN();
 
-    // RUN_TEST(testCreationTableMoteurs);
+    RUN_TEST(testCreationTableMoteurs);
     RUN_TEST(testMoteurInexistant);
     RUN_TEST(testMoteurSansVersions);
     RUN_TEST(testMoteurExistantEtVersions);
