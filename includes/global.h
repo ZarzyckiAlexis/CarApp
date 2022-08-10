@@ -20,4 +20,4 @@ void executerCommandeSQL(char *instructionSQL);
 // Fonction qui permet de supprimer toutes les tables de la BDD
 void destroyAllTable();
 // Fonction qui permet de voir si une données est présent dans la table
-int isDataPresent(char *query);
+int *isDataPresent(char *query);
