@@ -29,7 +29,7 @@ int createTableVersions(){
             // Pas d'erreur, on continue
             // On ajoute une donnée à titre d'exemple
             free(allocatedSqlReq);
-            char *SqlReq = "INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('1', '1.1 essence', 'celica', 'toyota');"; // On prépare notre requête SQL
+            char *SqlReq = "INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('0', '1990 T18', 'celica', 'toyota');"; // On prépare notre requête SQL
             char *allocatedSqlReq = (char *)malloc(strlen(SqlReq)+ 1); // On alloue en mémoire la requete
             sprintf(allocatedSqlReq, SqlReq); // On met la requête dans allocatedSqlReq
             if (allocatedSqlReq != NULL){
@@ -156,8 +156,6 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                 // Début de la vérification de l'existence de l'idMoteur
                 // Création de la requête SQL
                 strcpy(query, "SELECT idMoteur FROM versions_moteurs WHERE idMoteur=");
-                //char query[100] = "SELECT idMoteur FROM versions_moteurs WHERE idMoteur="; // base de la requête
-                //char stroke[10] = "'"; // caractère autour de l'ID
                 strcat(query, stroke); // On met le caractère après l'égal
                 strcat(query, idMoteur); // on met l'id
                 strcat(query, stroke); // on met le caractère après l'id
@@ -183,40 +181,9 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                     //printf("id");
                 }
                 else{
-                    //printf("\n%s", idMoteurs); // On affiche l'id moteur
                     // Fin de la Vérification de l'existence de l'id moteur
                     // Début de la vérification de la non existence du nomVersion
                     // Création de la requête SQL
-                    /*strcpy(query, "SELECT * FROM versions WHERE nomVersion=");
-                    //char query[100] = "SELECT nomVersion FROM versions WHERE nomVersion="; // base de la requête
-                    //char stroke[10] = "'"; // caractère autour du nom de la version
-                    strcat(query, stroke); // On met le caractère après l'égal
-                    strcat(query, nameVersion); // on met le nom de la version
-                    strcat(query, stroke); // on met le caractère après le nom de la version
-                    // On s'occupe du résultat
-                    printf("%s", query);
-                    MYSQL_RES *sqlResult = SqlSelect(query);
-                    char *nameVersionsTable = (char *) malloc(1000);
-                    char *nameVersion = (char *)malloc(1000);
-                    strcpy(nameVersion, "null"); // On met la valeur par défaut à "null"
-                    MYSQL_ROW sqlRow;
-                    while (sqlRow = mysql_fetch_row(sqlResult))
-                    {
-                        // Lecture du contenu ligne par ligne et conversion dans les types
-                        char *currentResult = (char *)malloc(strlen(sqlRow[0] + 1));
-                        strcpy(currentResult, sqlRow[0]);
-                        // Ajout dans la table
-                        strcpy(nameVersionsTable, currentResult);
-                        printf("\n\nZebi ? : %s", currentResult);
-                        for(int x=0;x<100; x++){
-                            nameVersion[x] = nameVersionsTable[x]; // On met l'id dans l'idMoteurs
-                        }
-                    }
-                    printf("%s", nameVersion);
-                    if(strcmp(nameVersion, "null") != 0){ // L'id n'est pas égale à null, ça existe déjà
-                        strcat(errors, "Cette version existe deja!\n");
-                        //printf("Version existe deja");
-                    }*/
                     strcpy(query, "select 1 from `versions` WHERE nomVersion=");
                     strcat(query, stroke); // On met le caractère après l'égal
                     strcat(query, nameVersion); // on met le nom de la version
@@ -235,21 +202,47 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                         char *insert = malloc(10000);
                         sprintf(insert, req, id, originalNameVersion, originalNameModele, nameMarques);
                         executerCommandeSQL(insert);
-                        // Bien ajouté, on ajoute + 1 dans l'idVersions.txt =>
-                        //int val = 0;
-                        //fscanf(idFile, "%d", &val);
-                        //printf("%d", val);
+                        char *req2 = "INSERT INTO `versions_moteurs`(`idMoteur`, `idVersion`) VALUES ('%s','%s')";
+                        char *insert2 = malloc(10000);
+                        sprintf(insert2, req2, idMoteur, id);
+                        executerCommandeSQL(insert2);
                         fclose(idFile);
                         idFile = fopen("../source/idVersions.txt", "w"); // On créer un fichier et on l'ouvre en écriture
                         if(erreurFichier(idFile, 0) == 0){ // Il n'existe pas, on va le créer
                            // printf("%d", ancientId); 
+                            int lengthstr = strlen(id);
+                            int pos = lengthstr - 1; // Last char
+                            int prevpos = pos-1; // Prev last char
+                            int nextpos = pos+1; // Blank after last char
+                            if(id[pos] == '9'){ // Caractère 9
+                                if(prevpos < 0){
+                                    int counternext = nextpos;
+                                    int counterpos = pos;
+                                    int counterprev = prevpos;
+                                    for(;counterprev!=0; counterprev++){
+                                        id[counternext] = id[counterpos];
+                                        id[counterpos] = '0';
+                                        counternext++;
+                                        counterpos++;
+                                    }
+                                    id[pos] = id[pos] + 1;
+                                    id[counterpos] = '0';
+                                    id[counternext] = '\0'; // on met le caractère de fin
+
+                                }
+                                else{
+                                    id[prevpos] = id[prevpos] + 1;
+                                    id[pos] = '0';
+                                }
+                            }
+                            else{ // Sinon on ajoute 1
+                                id[pos] = id[pos] + 1;
+                            }
                             char idToPut[100];
                             strcpy(idToPut, id);
-                            idToPut[0] = idToPut[0]+1;
-                            fputc(idToPut[0], idFile); // On insert l'ID dans l fichier
+                            fputs(idToPut, idFile);
                         }
                     }
-                    // Libération memoire du resultat SQL
                 }
                 // Libération memoire du resultat SQL
                 mysql_free_result(sqlResult);
@@ -264,7 +257,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
         idFile = fopen("../source/idVersions.txt", "w"); // On créer un fichier et on l'ouvre en écriture
         if(erreurFichier(idFile, 0) == 0){ // Il n'existe pas, on va le créer
             printf("Generation du fichier idVersions..."); 
-            char id[] = "0"; // On défini l'ID à 0
+            char id[] = "1"; // On défini l'ID à 0
             fputc(id[0], idFile); // On insert l'ID dans l fichier
         }
     }
