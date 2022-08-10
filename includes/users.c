@@ -2,7 +2,7 @@
 Auteur : Noah Verly
 But :   Fichier avec le code des fonctions
 */
-#include "foncUser.h"
+#include "users.h"
 
 
 /*FONCTION LISTER LES UTILISATEUR ET LEUR GRADE*/
@@ -429,4 +429,131 @@ unsigned modifier(FILE *fichier, char *log_actu, char *log, char *mdp, int dim)
             return 1;
         }
     }
+}
+/*FONCTION DE CONNEXION*/
+unsigned menu_connexion()
+{
+    // DECLARATION DES VARIABLES
+    char log[DIM];
+    char mdp[DIM];
+    int cpt = 0;
+    int rank;
+    // TRAITEMENT
+    setlocale(LC_ALL, "ISO 8859-1");
+    do
+    {
+        printf("\t\tConnectez-vous :\n");
+        printf("\t\t================\n\n");
+        //On rentre le log
+        printf("Quel est votre nom d'utilisateur : ");
+        fflush(stdin);
+        scanf("%s", &log);
+        //on rentre le mdp
+        printf("\nQuel est votre mot de passe : ");
+        fflush(stdin);
+        scanf("%s", &mdp);
+        //On appelle la fonction d'identification qui va renvoyer s'il est admin ou pas
+        rank = identification(log, mdp, DIM);
+        if (rank == LIBRE_VIDE)
+        {
+            printf("\nLe nom d'utilisateur et/ou le mot de passe est incorrect\n\n");
+        }
+    } while (!rank);
+    printf("\nVous etes connecte(e) !\n\n");
+    printf("Appuyer sur une touche pour continuer");
+    getch();
+    return rank;
+}
+/*FOCNTION MENU POUR UTILISATEUR SIMPLE*/
+void menu_uti(){
+    //DECLARATIONS DES VARIABLES
+    unsigned short choix_uti,cpt;
+    char nom_marque[DIM];
+    char lower[DIM];
+    // TRAITEMENT
+        /* Affichage du titre et de l'explication*/
+        printf("\n\n\n\n\t\tMAGAZINE\n");
+        printf("\t\t========");
+        do
+        { /*Affichage de la liste des possiblitees et le choix */
+            printf("\n\nListe des actions :");
+            printf("\n==================\n");
+            printf("\n\t- Afficher toute les marques\t\t(1)");
+            printf("\n\t- Afficher les modèles d'UNE marque\t(2)");
+            printf("\n\t- Affciher tout le magazine\t\t(3)");
+            printf("\n\t- Quittez le programme\t\t\t(4)");
+
+            do /*Verifie si le choix existe et boucle tant que c'est pas le cas*/
+            {
+                printf("\n\nQuel est votre choix : \t");
+                fflush(stdin);
+                scanf("%u", &choix_uti);
+            } while (choix_uti != 1 && choix_uti != 2 && choix_uti != 3 && choix_uti != 4);
+            // Les trois chemin possible pour les menus
+            switch (choix_uti) 
+            {
+            case 1: // Afficher toute les marques
+                break;
+            case 2: // Afficher les modeles d'une marques donnees
+                printf("\nDe quelle marque voulez-vous voir les modeles :\t");
+                fflush(stdin);
+                scanf("%s", &nom_marque);
+                for (cpt = 0; cpt < strlen(nom_marque); cpt++)
+                {
+                    lower[cpt] = tolower(nom_marque[cpt]);
+                }
+                break;
+            case 3: // Afficher tout
+                break;
+            }
+        } while (choix_uti != 4); // Tant que le choix n'est pas 4 on continue
+}
+/*FONCTION D'IDENTIFICATION*/
+unsigned identification(char *log, char *mdp, int dim)
+{
+    // DECLARATION DES VARIABLES
+    FILE *fichier;
+    char buff[dim];
+    // TRAITEMENT
+    fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
+    rewind(fichier);
+    // On regarde si le log existe et s'il est admin ou simple
+    if (check_existe(log, dim, fichier) == SIMPLE)
+    {
+        // On recupere le mdp de l'utilisateur
+        fscanf(fichier, "%s", buff);
+        strcat(log, "=Log");
+        // On chiffre le mpd
+        chiffrement(log, mdp, dim);
+        // On concatene le mdp chiffrer avec le =MDP
+        strcat(mdp, "=MDP");
+        if (strcmp(buff, mdp) != 0)
+        {
+            return 0;
+        }
+        if (fclose(fichier) == 0)
+        {
+            return 1;
+        }
+    }
+    else if (check_existe(log, dim, fichier) == ADMIN)
+    {
+        // On recupere le mdp de l'utilisateur
+        fscanf(fichier, "%s", buff);
+        strcat(log, "=LogAdmin");
+        // On chiffre le mpd
+        chiffrement(log, mdp, dim);
+        // On concatene le mdp chiffrer avec le =MDP
+        strcat(mdp, "=MDP");
+        if (strcmp(buff, mdp) != 0)
+        {
+            return 0;
+        }
+        if (fclose(fichier) == 0)
+        {
+            return 2;
+        }
+    }
+    else
+        return 0;
 }
