@@ -67,7 +67,38 @@ void testTableVersions(){
     free(nbElements);
 }
 
-/* Ne veut pas utiliser la fonction addVersions?
+void testAjoutErrorModele(){ 
+    destroyAllTable();
+    createTableVersions();
+    executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
+    executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
+    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '1', '1', '1', 'essence');");
+    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+    char name[100] = "pasunmodele";
+    char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
+    char *messages = (char *)malloc(1000);
+    strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
+    addVersions("version geniale", name, "0", errors);
+    printf("Erreurs : %s", errors); // N'affiche pas errors ? 
+    TEST_ASSERT_EQUAL(0, strcmp("Ce modele ne correponds a aucune marque!\n", errors));
+}
+
+void testAjoutErrorIdMotor(){ 
+    destroyAllTable();
+    createTableVersions();
+    executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
+    executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
+    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '1', '1', '1', 'essence');");
+    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+    char name[100] = "celica";
+    char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
+    char *messages = (char *)malloc(1000);
+    strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
+    addVersions("T20 2015", name, "9", errors);
+    printf("Erreurs : %s", errors); // N'affiche pas errors ?
+    TEST_ASSERT_EQUAL(0, strcmp("Ce modele ne correponds a aucune marque!\n", errors));
+}
+
 void testAjoutVersionErrorNameVersion(){ 
     destroyAllTable();
     createTableVersions();
@@ -79,13 +110,10 @@ void testAjoutVersionErrorNameVersion(){
     char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
     char *messages = (char *)malloc(1000);
     strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
-    addVersions("1.1 esseeence", name, "1", errors);
-    printf("%s", errors);
+    addVersions("1990 T18", name, "0", errors);
+    printf("Erreurs : %s", errors); // N'affiche pas errors ?
     TEST_ASSERT_EQUAL(0, strcmp("Cette version existe deja!\n", errors));
-    free(errors);
-    free(messages);
 }
-*/
 
 
 int main(void){
@@ -96,7 +124,9 @@ int main(void){
     RUN_TEST(testTableEmpty);
     RUN_TEST(testTableNotEmpty);
     RUN_TEST(testTableVersions);
-    //RUN_TEST(testAjoutVersionErrorNameVersion);
+    RUN_TEST(testAjoutErrorModele);
+    RUN_TEST(testAjoutErrorIdMotor);
+    RUN_TEST(testAjoutVersionErrorNameVersion);
     UNITY_END();
     return 0;
 }
