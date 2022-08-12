@@ -87,7 +87,7 @@ int main(void)
                 break;
             }
         //Choix unique pour l'administrateur
-        if (rank==2)
+        if (rank==ADMIN)
         {
             switch (choix_uti)
             {
@@ -114,7 +114,7 @@ int main(void)
             }
         }
     
-        } while (!(rank==1 && choix_uti==3) && !(rank==2 && choix_uti==8));
+        } while (!(rank==SIMPLE && choix_uti==3) && !(rank==ADMIN && choix_uti==8));
     }
     } while (choix !=3);
     printf("Merci d'avoir utilise(e) l'application !");
