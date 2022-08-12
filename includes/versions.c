@@ -55,13 +55,13 @@ int createTableVersions(){
 
 int isTableEmptyVersions(){
     if(existTableVersions() == 1){ // La table existe
-        MYSQL_RES *sqlResult = SqlSelect("select * from `versions`"); // On effectue la requête
+        MYSQL_RES *sqlResult = SqlSelect("select COUNT(*) from `versions`"); // On effectue la requête
         MYSQL_ROW sqlRow;
         int result = 1; // On définit la valeur de base à 1
         while (sqlRow = mysql_fetch_row(sqlResult)){
             int row = atoi(sqlRow[0]); // On récupère le nombre de lignes 
             if(row >= 1){ // On regarde si il y'a 0 lignes
-                result = 0; // Table vide
+                return 0; // Table vide
             }
         }
         return result;
@@ -146,8 +146,9 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                     nameMarques[x] = nameMarquesTable[x]; // On met le nom de la marque dans le nameVersions
                 }
             }
+            free(nameMarquesTable);
             if(strcmp(nameMarques, "null") == 0){ // Le nom est toujours null => Erreur on quitte, le modèle ne trouve pas de marque => n'existe pas
-                strcat(errors, "Cette marques n'existe pas!\n");
+                strcat(errors, "Ce modele ne correponds a aucune marque!\n");
                 //printf("marques");
             }
             else{
@@ -176,11 +177,13 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                         idMoteurs[x] = idMoteursTable[x]; // On met l'id dans l'idMoteurs
                     }
                 }
+                free(idMoteursTable);
                 if(strcmp(idMoteurs, "null") == 0){ // L'id est toujours null => Erreur on quitte, l'id n'existe pas
                     strcat(errors, "Cette id n'existe pas!\n");
                     //printf("id");
                 }
                 else{
+                    free(idMoteurs);
                     // Fin de la Vérification de l'existence de l'id moteur
                     // Début de la vérification de la non existence du nomVersion
                     // Création de la requête SQL
@@ -241,6 +244,9 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                             char idToPut[100];
                             strcpy(idToPut, id);
                             fputs(idToPut, idFile);
+                            free(nameMarques);
+                            free(insert);
+                            free(insert2);
                         }
                     }
                 }
@@ -248,8 +254,14 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                 mysql_free_result(sqlResult);
                 }
             // Libération memoire du resultat SQL
+            free(query);
             mysql_free_result(sqlResult);
         }
+        strcat(errors, "\0");
+        free(originalNameVersion);
+        free(originalIdMoteur);
+        free(originalNameModele);
+        free(id);
         fclose(idFile); // On ferme le fichier
     }
     else{
