@@ -8,6 +8,7 @@
         "unity.h": "c",
         "moteurs.h": "c",
         "versionsMoteurs.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "users.h": "c"
     }
 }

@@ -151,5 +151,44 @@
             "group": "test",
             "problemMatcher": []
         },
+        {
+            "type": "cppbuild",
+            "label": "Compiler Test Users",
+            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\tests\\testsUsers.c",
+                "-isystem",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/include/",
+                "${workspaceFolder}\\unity\\*.c",
+                "${workspaceFolder}\\includes\\users.c",
+                "${workspaceFolder}\\includes\\users.h",
+                "-o",
+                "${workspaceFolder}\\tests\\testsUsers.exe",
+                "-L",
+				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
+				"-l",
+				"libmariadb"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "process",
+            "label": "Executer les tests Users",
+            "command": "${workspaceFolder}\\tests\\testsUsers.exe",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
 	]
 }
