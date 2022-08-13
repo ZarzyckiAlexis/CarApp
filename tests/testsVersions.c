@@ -1,6 +1,4 @@
 #include "..\includes\versions.h"
-#include "..\includes\moteurs.h"
-#include "..\includes\versionsMoteurs.h"
 #include "..\unity\unity.h"
 
 void setup(){
@@ -69,11 +67,7 @@ void testTableVersions(){
 
 void testAjoutErrorModele(){ 
     destroyAllTable();
-    createTableVersions();
-    executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
-    executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
-    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '1', '1', '1', 'essence');");
-    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+    createAllTable();
     char name[100] = "pasunmodele";
     char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
     char *messages = (char *)malloc(1000);
@@ -85,11 +79,7 @@ void testAjoutErrorModele(){
 
 void testAjoutErrorIdMotor(){ 
     destroyAllTable();
-    createTableVersions();
-    executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
-    executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
-    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '1', '1', '1', 'essence');");
-    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+    createAllTable();
     char name[100] = "celica";
     char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
     char *messages = (char *)malloc(1000);
@@ -101,11 +91,7 @@ void testAjoutErrorIdMotor(){
 
 void testAjoutVersionErrorNameVersion(){ 
     destroyAllTable();
-    createTableVersions();
-    executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
-    executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
-    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '1', '1', '1', 'essence');");
-    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+    createAllTable();
     char name[100] = "celica";
     char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
     char *messages = (char *)malloc(1000);

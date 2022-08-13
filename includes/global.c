@@ -151,3 +151,18 @@ void destroyAllTable(){
         executerCommandeSQL("DROP TABLE moteurs");
     }
 }
+
+void createAllTable(){
+    executerCommandeSQL("CREATE TABLE versions( idVersion INT, nomVersion VARCHAR(50), nomModele VARCHAR(50), nomMarque VARCHAR(50), PRIMARY KEY(idVersion) );");
+    executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('0', '1990 T18', 'celica', 'toyota');");
+    executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('998', '2.0 gti', '206', 'peugeot');");
+    executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('999', '1.6 sti', 'wrx', 'subaru');");
+    executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
+    executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
+    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '1600', '4', '105', 'essence');");
+    executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('1', '2000', '6', '300', 'essence');");
+    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '998');");
+    executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '999');");
+
+}

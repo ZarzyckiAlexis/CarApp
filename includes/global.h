@@ -21,3 +21,6 @@ void executerCommandeSQL(char *instructionSQL);
 void destroyAllTable();
 // Fonction qui permet de voir si une données est présent dans la table
 int *isDataPresent(char *query);
+// Fonction qui permet de généré toutes les tables
+void createAllTable();
+
