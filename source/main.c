@@ -7,6 +7,7 @@ But :   Menu de l'application de gestion des utilsateurs,
 
 // INCLUDE
 #include "../includes\users.c"
+#include "../includes\versions.c"
 // MAIN
 int main(void)
 {
@@ -79,7 +80,12 @@ int main(void)
             {
             // Lister les voitures
             case 1:
-
+            char versions[100][100];
+            int *count = (int *)malloc(sizeof(int));
+            getVersions(versions, count);
+            for(int i=0; i<*count/3; i++){
+            printf("Versions : %s Modele: %s Marque: %s \n", versions[i*3], versions[i*3+1], versions[i*3+2]);
+            }
                 break;
             // Rechercher une voiture
             case 2:

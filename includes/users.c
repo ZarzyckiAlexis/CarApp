@@ -464,50 +464,6 @@ unsigned menu_connexion()
     getch();
     return rank;
 }
-/*FOCNTION MENU POUR UTILISATEUR SIMPLE*/
-void menu_uti(){
-    //DECLARATIONS DES VARIABLES
-    unsigned short choix_uti,cpt;
-    char nom_marque[DIM];
-    char lower[DIM];
-    // TRAITEMENT
-        /* Affichage du titre et de l'explication*/
-        printf("\n\n\n\n\t\tMAGAZINE\n");
-        printf("\t\t========");
-        do
-        { /*Affichage de la liste des possiblitees et le choix */
-            printf("\n\nListe des actions :");
-            printf("\n==================\n");
-            printf("\n\t- Afficher toute les marques\t\t(1)");
-            printf("\n\t- Afficher les modèles d'UNE marque\t(2)");
-            printf("\n\t- Affciher tout le magazine\t\t(3)");
-            printf("\n\t- Quittez le programme\t\t\t(4)");
-
-            do /*Verifie si le choix existe et boucle tant que c'est pas le cas*/
-            {
-                printf("\n\nQuel est votre choix : \t");
-                fflush(stdin);
-                scanf("%u", &choix_uti);
-            } while (choix_uti != 1 && choix_uti != 2 && choix_uti != 3 && choix_uti != 4);
-            // Les trois chemin possible pour les menus
-            switch (choix_uti) 
-            {
-            case 1: // Afficher toute les marques
-                break;
-            case 2: // Afficher les modeles d'une marques donnees
-                printf("\nDe quelle marque voulez-vous voir les modeles :\t");
-                fflush(stdin);
-                scanf("%s", &nom_marque);
-                for (cpt = 0; cpt < strlen(nom_marque); cpt++)
-                {
-                    lower[cpt] = tolower(nom_marque[cpt]);
-                }
-                break;
-            case 3: // Afficher tout
-                break;
-            }
-        } while (choix_uti != 4); // Tant que le choix n'est pas 4 on continue
-}
 /*FONCTION D'IDENTIFICATION*/
 unsigned identification(char *log, char *mdp, int dim)
 {
