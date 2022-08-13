@@ -21,7 +21,9 @@ int creationTableVersionsMoteurs(void)
 
           // Exécution de la rêquete
           executerCommandeSQL(requeteSQL);
-
+          executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+          executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '998');");
+          executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '999');");
       // Déconnexion de la DB
       closeConnexion();
 

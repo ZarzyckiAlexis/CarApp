@@ -9,6 +9,7 @@ But :   Menu de l'application de gestion des utilsateurs,
 #include "../includes\users.c"
 #include "../includes\versions.c"
 #include "../includes\moteurs.c"
+#include "../includes\versionsMoteurs.c"
 // MAIN
 int main(void)
 {
@@ -49,6 +50,24 @@ int main(void)
     else if (choix==2)
     {
         rank = menu_connexion();
+        if(existTableVersions() == 0){
+            createTableVersions();
+        }
+        int *resultat = TableExist("SELECT 1 FROM moteurs LIMIT 1");
+        if(*resultat == 0){
+            //creationTableMoteurs();
+            executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
+            executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '300', '250', '100', 'Diesel');");
+            executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('1', '250', '120', '250', 'Essence');");
+        }
+        resultat = TableExist("SELECT 1 FROM versions_moteurs LIMIT 1");
+        if (*resultat == 0){
+            //creationTableVersionsMoteurs();
+            executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
+            executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
+            executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '998');");
+            executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '999');");
+        }
         printf("Magazine\n");
         printf("========");
         //Do while du menu de selection
@@ -91,6 +110,8 @@ int main(void)
             for(int i=0; i<*count/3; i++){
             printf("Versions : %s Modele: %s Marque: %s \n", versions[i*3], versions[i*3+1], versions[i*3+2]);
             }
+            printf("Appuyez sur une touche de votre clavier pour continuer\n");
+            getch();
                 break;
             // Rechercher une voiture
             case 2:
@@ -117,6 +138,8 @@ int main(void)
                         printf("\nNom version: %s Modele: %s Marque: %s ID: %s\n", tableauInfosVersions[cpt*4],tableauInfosVersions[cpt*4+1], tableauInfosVersions[cpt*4+2], tableauInfosVersions[cpt*4+3]);
                         cpt++;
                     }
+                    printf("Appuyez sur une touche de votre clavier pour continuer\n");
+                    getch();
                 }
             }
         //Choix unique pour l'administrateur
@@ -138,6 +161,8 @@ int main(void)
                 strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
                 addVersions(version, modele, idmotor, errors);
                 printf("%s", errors);
+                printf("Appuyez sur une touche de votre clavier pour continuer\n");
+                getch();
                 break;
             // Lister les utilisateur
             case 4:
