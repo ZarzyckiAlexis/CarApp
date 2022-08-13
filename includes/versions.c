@@ -82,15 +82,29 @@ void getVersions(char versions[][100], int *count){
         while (sqlRow = mysql_fetch_row(sqlResult))
         {
             // Lecture du contenu ligne par ligne et conversion dans les types
-            char *currentResult = (char *)malloc(strlen(sqlRow[0] + 1));
-            strcpy(currentResult, sqlRow[1]);
+            char *nomVersion = (char *)malloc(strlen(sqlRow[1] + 1));
+            char *nomModele = (char *)malloc(strlen(sqlRow[2] + 1));
+            char *nomMarque = (char *)malloc(strlen(sqlRow[3] + 1));
+            strcpy(nomVersion, sqlRow[1]);
+            strcpy(nomModele, sqlRow[2]);
+            strcpy(nomMarque, sqlRow[3]);
             // Extension de la table si necessaire
             if (nombreCurrent >= nombreMax){
                 nombreMax += 10;
                 versionsTable = realloc(versionsTable, nombreMax);
             }
             // Ajout dans la table
-            strcpy(versionsTable, currentResult);
+            strcpy(versionsTable, nomVersion);
+            for(int x=0;x<100; x++){
+                versions[nombreCurrent][x] = versionsTable[x];   
+            }
+            nombreCurrent++;
+            strcpy(versionsTable, nomModele);
+            for(int x=0;x<100; x++){
+                versions[nombreCurrent][x] = versionsTable[x];   
+            }
+            nombreCurrent++;
+            strcpy(versionsTable, nomMarque);
             for(int x=0;x<100; x++){
                 versions[nombreCurrent][x] = versionsTable[x];   
             }
