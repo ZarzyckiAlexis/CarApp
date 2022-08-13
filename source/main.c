@@ -7,6 +7,7 @@ But :   Menu de l'application de gestion des utilsateurs,
 
 // INCLUDE
 #include "../includes\users.c"
+#include "../includes\versions.c"
 // MAIN
 int main(void)
 {
@@ -79,7 +80,12 @@ int main(void)
             {
             // Lister les voitures
             case 1:
-
+            char versions[100][100];
+            int *count = (int *)malloc(sizeof(int));
+            getVersions(versions, count);
+            for(int i=0; i<*count/3; i++){
+            printf("Versions : %s Modele: %s Marque: %s \n", versions[i*3], versions[i*3+1], versions[i*3+2]);
+            }
                 break;
             // Rechercher une voiture
             case 2:
@@ -93,7 +99,21 @@ int main(void)
             {
             //Ajouter une nouvelle version
             case 3:
-
+                char modele[100];
+                char version[100];
+                char idmotor[100];
+                printf("Veuillez entrer le nom de la version : ");
+                scanf("%s", version);
+                fflush(stdin);
+                printf("Veuillez entrer le modele : ");
+                scanf("%s", modele);
+                fflush(stdin);
+                printf("Veuillez entrer l'id moteur: ");
+                scanf("%s", idmotor);
+                char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
+                strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
+                addVersions(version, modele, idmotor, errors);
+                printf("%s", errors);
                 break;
             // Lister les utilisateur
             case 4:
