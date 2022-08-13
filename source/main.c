@@ -99,7 +99,21 @@ int main(void)
             {
             //Ajouter une nouvelle version
             case 3:
-
+                char modele[100];
+                char version[100];
+                char idmotor[100];
+                printf("Veuillez entrer le nom de la version : ");
+                scanf("%s", version);
+                fflush(stdin);
+                printf("Veuillez entrer le modele : ");
+                scanf("%s", modele);
+                fflush(stdin);
+                printf("Veuillez entrer l'id moteur: ");
+                scanf("%s", idmotor);
+                char *errors = (char *)malloc(1000); // on réserve un emplacement mémoire pour la gestion des erreurs
+                strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
+                addVersions(version, modele, idmotor, errors);
+                printf("%s", errors);
                 break;
             // Lister les utilisateur
             case 4:
