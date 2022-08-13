@@ -14,8 +14,6 @@ int creationTableMoteurs(void)
     if (*resultat != 1)
 
     {
-        initConnexion();
-
         // Création de la rêquete
         sprintf(requeteSQL, "CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
 
@@ -23,8 +21,6 @@ int creationTableMoteurs(void)
         executerCommandeSQL(requeteSQL);
         executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '300', '250', '100', 'Diesel');");
         executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('1', '250', '120', '250', 'Essence');");
-        // Déconnexion de la DB
-        closeConnexion();
 
         free(requeteSQL);
         free(resultat);
