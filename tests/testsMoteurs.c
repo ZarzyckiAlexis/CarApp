@@ -43,7 +43,7 @@ void testMoteurInexistant(void)
 
     setUp();
     idMoteur = 3;
-    creationListePourMoteurs(idMoteur, &nbVersions);
+    res = recuperationDesVersions(idMoteur, &nbVersions);
 
     TEST_ASSERT_EQUAL_INT(-1, nbVersions);
 }
@@ -54,7 +54,7 @@ void testMoteurSansVersions(void)
 
     setUp();
     idMoteur = 2;
-    creationListePourMoteurs(idMoteur, &nbVersions);
+    res = recuperationDesVersions(idMoteur, &nbVersions);
 
     TEST_ASSERT_EQUAL_INT(0, nbVersions);
 }
@@ -65,7 +65,7 @@ void testMoteurExistantEtVersions(void)
 
     setUp();
     idMoteur = 1;
-    creationListePourMoteurs(idMoteur, &nbVersions);
+    res = recuperationDesVersions(idMoteur, &nbVersions);
 
     TEST_ASSERT_EQUAL_INT(3, nbVersions);
 }

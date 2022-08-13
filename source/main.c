@@ -8,6 +8,7 @@ But :   Menu de l'application de gestion des utilsateurs,
 // INCLUDE
 #include "../includes\users.c"
 #include "../includes\versions.c"
+#include "../includes\moteurs.c"
 // MAIN
 int main(void)
 {
@@ -75,13 +76,17 @@ int main(void)
         do{
             printf("\n\nQuel est votre choix : \t"); fflush(stdin); scanf("%u", &choix_uti);
         } while (choix_uti!= 1 && choix_uti!= 2 && choix_uti!= 3 && choix_uti!= 4 && choix_uti!= 5 && choix_uti!= 6 && choix_uti!=7 && choix_uti!=8);
+        char versions[100][100];
+        int *count = (int *)malloc(sizeof(int));
+        int idMoteur = 0, nbVersions = 0;
+        char modele[100];
+        char version[100];
+        char idmotor[100];
         //Choix commun
             switch (choix_uti)
             {
             // Lister les voitures
             case 1:
-            char versions[100][100];
-            int *count = (int *)malloc(sizeof(int));
             getVersions(versions, count);
             for(int i=0; i<*count/3; i++){
             printf("Versions : %s Modele: %s Marque: %s \n", versions[i*3], versions[i*3+1], versions[i*3+2]);
@@ -89,7 +94,6 @@ int main(void)
                 break;
             // Rechercher une voiture
             case 2:
-                int idMoteur = 0, nbVersions = 0;
                 printf("Entre l'id du moteur : ");
                 scanf("%d", &idMoteur);
                 
@@ -114,16 +118,6 @@ int main(void)
                         cpt++;
                     }
                 }
-                switch (nbVersions)
-                {
-                case 0:
-                    printf("Aucune version pour ce moteur");
-                    break;
-                case -1:
-                    printf("Aucun moteur ne possède cette identifiant");
-                    break;
-                }
-                break;
             }
         //Choix unique pour l'administrateur
         if (rank==ADMIN)
@@ -132,9 +126,6 @@ int main(void)
             {
             //Ajouter une nouvelle version
             case 3:
-                char modele[100];
-                char version[100];
-                char idmotor[100];
                 printf("Veuillez entrer le nom de la version : ");
                 scanf("%s", version);
                 fflush(stdin);

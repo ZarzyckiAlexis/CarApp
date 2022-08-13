@@ -12,24 +12,38 @@ void creationListePourMoteurs(int idMoteur, int *nbVersions);
 void recuperationDuResultat(int tableauIdVersions[], MYSQL_RES *res);
 // Récupération des versions équipées de ce moteurs
 MYSQL_RES *recuperationDesVersions(int idMoteur, int *nbVersions);
-//Fonction appeller dans le main qui fait le travail complete de recherche en utilisant les fonction si dessus
-// Selon la valeur de nbVersions après l'appelle de celle ci on pourra determiner si le moteur existe si il possède des versions VOIR EXEMPLE SI DESSOUS
-void creationListePourMoteurs(int idMoteur, int *nbVersions);
 
 
 
 
 
 
-
-/* EXEMPLE NOTER
+/* EXEMPLE NOTER POUR L UTILISATION DANS LE MAIN
 int main(void)
 {
     int idMoteur = 0, nbVersions = 0;
     printf("Entre l'id du moteur : ");
     scanf("%d", &idMoteur);
-    creationListePourMoteurs(idMoteur, &nbVersions);
+    
+    MYSQL_RES *res = NULL;
 
+    // Récupération des ids des différentes versions en DB
+    // Si après le passage nbVersions = -1 alors le moteur n'existe pas
+    // Si après le passage nbVersions = 0 alors le moteur n'a pas de modèle
+    res = recuperationDesVersions(idMoteur, &nbVersions);
+
+    // Si il y a 0 version cela veut dire que se moteur ne contient pas de version
+    if (nbVersions > 1)
+
+    { // Tableau contenant tout les ids des versions contenant le moteur choisi
+        int tableauIdVersions[nbVersions];
+        // Tableau qui contiendra les infos récupérer pour chaque version
+        char tableauInfosVersions[nbVersions * 4][51];
+        // Utilisation des résultats pour récupérer les ids dans un tableau
+        recuperationDuResultat(tableauIdVersions, res);
+        // Récupération des infos de chaque version contenant le moteur choisi
+        recuperationDesInfosVersions(tableauInfosVersions, tableauIdVersions, nbVersions);
+    }
 
     switch (nbVersions)
     {

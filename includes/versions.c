@@ -40,6 +40,8 @@ int createTableVersions(){
                     return 2; // On retourne en erreur d'ajout des données
                 }
                 free(allocatedSqlReq); // On désalloue la mémoire allouée
+                executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('998', '2.0 gti', '206', 'peugeot');");
+                executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('999', '1.6 sti', 'wrx', 'subaru');");
                 return 1;
             }
             free(allocatedSqlReq); // On désalloue la mémoire allouée
@@ -82,15 +84,29 @@ void getVersions(char versions[][100], int *count){
         while (sqlRow = mysql_fetch_row(sqlResult))
         {
             // Lecture du contenu ligne par ligne et conversion dans les types
-            char *currentResult = (char *)malloc(strlen(sqlRow[0] + 1));
-            strcpy(currentResult, sqlRow[1]);
+            char *nomVersion = (char *)malloc(strlen(sqlRow[1] + 1));
+            char *nomModele = (char *)malloc(strlen(sqlRow[2] + 1));
+            char *nomMarque = (char *)malloc(strlen(sqlRow[3] + 1));
+            strcpy(nomVersion, sqlRow[1]);
+            strcpy(nomModele, sqlRow[2]);
+            strcpy(nomMarque, sqlRow[3]);
             // Extension de la table si necessaire
             if (nombreCurrent >= nombreMax){
                 nombreMax += 10;
                 versionsTable = realloc(versionsTable, nombreMax);
             }
             // Ajout dans la table
-            strcpy(versionsTable, currentResult);
+            strcpy(versionsTable, nomVersion);
+            for(int x=0;x<100; x++){
+                versions[nombreCurrent][x] = versionsTable[x];   
+            }
+            nombreCurrent++;
+            strcpy(versionsTable, nomModele);
+            for(int x=0;x<100; x++){
+                versions[nombreCurrent][x] = versionsTable[x];   
+            }
+            nombreCurrent++;
+            strcpy(versionsTable, nomMarque);
             for(int x=0;x<100; x++){
                 versions[nombreCurrent][x] = versionsTable[x];   
             }
@@ -156,7 +172,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                 // Fin de la Vérification de l'existence du nom du modèle + récupération du nom de la marque
                 // Début de la vérification de l'existence de l'idMoteur
                 // Création de la requête SQL
-                strcpy(query, "SELECT idMoteur FROM versions_moteurs WHERE idMoteur=");
+                strcpy(query, "SELECT idMoteur FROM moteurs WHERE idMoteur=");
                 strcat(query, stroke); // On met le caractère après l'égal
                 strcat(query, idMoteur); // on met l'id
                 strcat(query, stroke); // on met le caractère après l'id
