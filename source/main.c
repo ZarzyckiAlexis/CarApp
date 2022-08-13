@@ -55,19 +55,12 @@ int main(void)
         }
         int *resultat = TableExist("SELECT 1 FROM moteurs LIMIT 1");
         if(*resultat == 0){
-            //creationTableMoteurs();
-            executerCommandeSQL("CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
-            executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '300', '250', '100', 'Diesel');");
-            executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('1', '250', '120', '250', 'Essence');");
-        }
+            creationTableMoteurs();
+       }
         resultat = TableExist("SELECT 1 FROM versions_moteurs LIMIT 1");
         if (*resultat == 0){
-            //creationTableVersionsMoteurs();
-            executerCommandeSQL("CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
-            executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
-            executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '998');");
-            executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '999');");
-        }
+            creationTableVersionsMoteurs();
+       }
         printf("Magazine\n");
         printf("========");
         //Do while du menu de selection
