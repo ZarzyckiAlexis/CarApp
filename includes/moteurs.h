@@ -2,7 +2,7 @@
 
 
 // Création de la table pour les moteurs
-int creationTableMoteurs (void);
+int creationTableMoteurs(void);
 // En utilisant le tableau contenant les id des versions qui possède le moteur demander on va rechercher les infos qu'il nous faut
 void recuperationDesInfosVersions(char tableauInfosVersions[][51], int tableauIdVersions[], int nbVersions);
 // Fonction pour récupérer les versions d'un moteur demander

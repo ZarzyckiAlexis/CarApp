@@ -21,7 +21,8 @@ int creationTableMoteurs(void)
 
         // Exécution de la rêquete
         executerCommandeSQL(requeteSQL);
-
+        executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '300', '250', '100', 'Diesel');");
+        executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('1', '250', '120', '250', 'Essence');");
         // Déconnexion de la DB
         closeConnexion();
 
