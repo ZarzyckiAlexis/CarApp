@@ -129,7 +129,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
     strcpy(originalNameModele, nameModele);
     strcpy(originalIdMoteur, idMoteur);
     if(erreurFichier(idFile, 0) == 0){  // On essaye de lire le fichier --> Il existe, on continue ; Si pas, on le crée.
-        printf("\nOuverture du fichier idVersions..."); // On affiche l'ouverture réussie du fichier
+        printf("\nOuverture du fichier idVersions...\n"); // On affiche l'ouverture réussie du fichier
         char *id = (char *)malloc(sizeof(int) * 100);
         fgets(id, 100, idFile);
         if(existTableVersions() == 1){ // La table existe!
@@ -164,7 +164,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
             }
             free(nameMarquesTable);
             if(strcmp(nameMarques, "null") == 0){ // Le nom est toujours null => Erreur on quitte, le modèle ne trouve pas de marque => n'existe pas
-                strcat(errors, "Ce modele ne correponds a aucune marque!\n");
+                strcpy(errors, "Ce modele ne correponds a aucune marque!\n");
                 //printf("marques");
             }
             else{
@@ -195,7 +195,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                 }
                 free(idMoteursTable);
                 if(strcmp(idMoteurs, "null") == 0){ // L'id est toujours null => Erreur on quitte, l'id n'existe pas
-                    strcat(errors, "Cette id n'existe pas!\n");
+                    strcpy(errors, "Cette id n'existe pas!\n");
                     //printf("id");
                 }
                 else{
@@ -210,7 +210,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                     strcat(query, " LIMIT 1");
                     int *sqlResult = isDataPresent(query);
                     if(*sqlResult == 1){
-                        strcat(errors, "Cette version existe deja!\n");
+                        strcpy(errors, "Cette version existe deja!\n");
                     }
                     else{
                         //printf("\n%s", nameVersion); // On affiche le nom de la version

@@ -65,6 +65,8 @@ void testTableVersions(){
     free(nbElements);
 }
 
+// AddVersions fonctionnel dans Unity uniquement en débug ?!
+
 void testAjoutErrorModele(){ 
     destroyAllTable();
     createAllTable();
@@ -73,7 +75,6 @@ void testAjoutErrorModele(){
     char *messages = (char *)malloc(1000);
     strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
     addVersions("version geniale", name, "0", errors);
-    printf("Erreurs : %s", errors); // N'affiche pas errors ? 
     TEST_ASSERT_EQUAL(0, strcmp("Ce modele ne correponds a aucune marque!\n", errors));
 }
 
@@ -85,8 +86,7 @@ void testAjoutErrorIdMotor(){
     char *messages = (char *)malloc(1000);
     strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
     addVersions("T20 2015", name, "9", errors);
-    printf("Erreurs : %s", errors); // N'affiche pas errors ?
-    TEST_ASSERT_EQUAL(0, strcmp("Ce modele ne correponds a aucune marque!\n", errors));
+    TEST_ASSERT_EQUAL(0, strcmp("Cette id n'existe pas!\n", errors));
 }
 
 void testAjoutVersionErrorNameVersion(){ 
@@ -97,7 +97,6 @@ void testAjoutVersionErrorNameVersion(){
     char *messages = (char *)malloc(1000);
     strcpy(errors, "\n"); // On initialise le contenu de la liste d'erreurs
     addVersions("1990 T18", name, "0", errors);
-    printf("Erreurs : %s", errors); // N'affiche pas errors ?
     TEST_ASSERT_EQUAL(0, strcmp("Cette version existe deja!\n", errors));
 }
 
