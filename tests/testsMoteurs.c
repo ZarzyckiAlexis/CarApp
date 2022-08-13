@@ -21,15 +21,19 @@ void testCreationTableMoteurs(void)
 {
 
     int *exist = malloc(sizeof(int));
-    int resultat;
+    int *resultat = malloc(sizeof(int));
 
     setUp();
+    
+    //Suppression de toutes les tables
+    destroyAllTable();
 
-    exist = TableExist("SELECT 1 FROM moteurs LIMIT 1");
+    //Ajout des tables rien avoir avec cette batterie de test
+    createAllTable();
 
-    resultat = creationTableMoteurs();
+    resultat = TableExist("SELECT 1 FROM moteurs LIMIT 1");
 
-    TEST_ASSERT_EQUAL_INT(1, resultat);
+    TEST_ASSERT_EQUAL_INT(1, *resultat);
 
     free(exist);
 }
@@ -53,7 +57,7 @@ void testMoteurSansVersions(void)
 {
 
     setUp();
-    idMoteur = 2;
+    idMoteur = 1;
     res = recuperationDesVersions(idMoteur, &nbVersions);
 
     TEST_ASSERT_EQUAL_INT(0, nbVersions);
@@ -64,7 +68,7 @@ void testMoteurExistantEtVersions(void)
 {
 
     setUp();
-    idMoteur = 1;
+    idMoteur = 0;
     res = recuperationDesVersions(idMoteur, &nbVersions);
 
     TEST_ASSERT_EQUAL_INT(3, nbVersions);
@@ -75,7 +79,7 @@ void testRecupVersions(void)
 {
 
     setUp();
-    idMoteur = 1;
+    idMoteur = 0;
 
     res = recuperationDesVersions(idMoteur, &nbVersions);
 
@@ -87,13 +91,13 @@ void testRecupIdVersions(void)
 {
 
     setUp();
-    idMoteur = 1;
+    idMoteur = 0;
 
     res = recuperationDesVersions(idMoteur, &nbVersions);
 
     recuperationDuResultat(tableauIdVersions, res);
 
-    TEST_ASSERT_EQUAL_INT(2, tableauIdVersions[1]);
+    TEST_ASSERT_EQUAL_INT(998, tableauIdVersions[1]);
 }
 
 // Test on sais que l'information récupérer dans ligne 0 de la matrice sera le nomVersion qui est GTI si tout ce passe bien ou devrait retrouver cette chaine
@@ -102,14 +106,14 @@ void testRecupInfos(void)
 
     char tableauInfosVersions[12][51];
     setUp();
-    idMoteur = 1;
+    idMoteur = 0;
 
     res = recuperationDesVersions(idMoteur, &nbVersions);
 
     recuperationDuResultat(tableauIdVersions, res);
     recuperationDesInfosVersions(tableauInfosVersions, tableauIdVersions, nbVersions);
 
-    TEST_ASSERT_EQUAL_STRING("GTI", &tableauInfosVersions[0][0]);
+    TEST_ASSERT_EQUAL_STRING("1990 T18", &tableauInfosVersions[0][0]);
 }
 
 int main(void)
