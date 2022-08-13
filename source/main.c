@@ -138,9 +138,17 @@ int main(void)
                         printf("\nNom version: %s Modele: %s Marque: %s ID: %s\n", tableauInfosVersions[cpt*4],tableauInfosVersions[cpt*4+1], tableauInfosVersions[cpt*4+2], tableauInfosVersions[cpt*4+3]);
                         cpt++;
                     }
-                    printf("Appuyez sur une touche de votre clavier pour continuer\n");
-                    getch();
                 }
+                switch(nbVersions){
+                    case 0:
+                        printf("Aucune version pour ce moteur\n");
+                        break;
+                    case -1:
+                        printf("Aucun moteur ne possede cette identifiant\n");
+                        break;
+                }
+                printf("Appuyez sur une touche de votre clavier pour continuer\n");
+                getch();
             }
         //Choix unique pour l'administrateur
         if (rank==ADMIN)
