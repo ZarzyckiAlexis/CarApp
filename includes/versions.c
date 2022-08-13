@@ -40,6 +40,8 @@ int createTableVersions(){
                     return 2; // On retourne en erreur d'ajout des données
                 }
                 free(allocatedSqlReq); // On désalloue la mémoire allouée
+                executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('998', '2.0 gti', '206', 'peugeot');");
+                executerCommandeSQL("INSERT INTO `versions` (`idVersion`, `nomVersion`, `nomModele`, `nomMarque`) VALUES ('999', '1.6 sti', 'wrx', 'subaru');");
                 return 1;
             }
             free(allocatedSqlReq); // On désalloue la mémoire allouée
@@ -170,7 +172,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
                 // Fin de la Vérification de l'existence du nom du modèle + récupération du nom de la marque
                 // Début de la vérification de l'existence de l'idMoteur
                 // Création de la requête SQL
-                strcpy(query, "SELECT idMoteur FROM versions_moteurs WHERE idMoteur=");
+                strcpy(query, "SELECT idMoteur FROM moteurs WHERE idMoteur=");
                 strcat(query, stroke); // On met le caractère après l'égal
                 strcat(query, idMoteur); // on met l'id
                 strcat(query, stroke); // on met le caractère après l'id

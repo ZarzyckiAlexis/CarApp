@@ -41,8 +41,6 @@
                 "${workspaceFolder}\\unity\\*.c",
                 "${workspaceFolder}\\includes\\versions.c",
                 "${workspaceFolder}\\includes\\versions.h",
-                "${workspaceFolder}\\includes\\moteurs.c",
-                "${workspaceFolder}\\includes\\moteurs.h",
                 "-o",
                 "${workspaceFolder}\\tests\\versions.exe",
                 "-L",
