@@ -38,6 +38,10 @@ int main(void)
     {
         //On regarde si le fichier est vide pour savoir s'il est le premier pour le mettre admin
         FILE * fichier=fopen("users.txt","r" );
+        if (erreurDeFichier(fichier))
+        {
+            return 0;
+        }
         fseek(fichier,0,SEEK_END);  
         long lfile=ftell(fichier);   //longueur du fichier 
         fclose(fichier); 
