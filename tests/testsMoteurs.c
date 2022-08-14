@@ -77,18 +77,6 @@ void testMoteurExistantEtVersions(void)
     TEST_ASSERT_EQUAL_INT(3, nbVersions);
 }
 
-// Test que la fonction recuperationDesVersions récupère bien les versions on utilise un moteur dans lequel on sais qu'il y a 3 versions
-void testRecupVersions(void)
-{
-
-    setUp();
-    idMoteur = 0;
-
-    res = recuperationDesVersions(idMoteur, &nbVersions);
-
-    TEST_ASSERT_EQUAL_INT(3, nbVersions);
-}
-
 // Test que le tableau d'id des versions possèdant le moteur demander ce remplis correctement pour cela on sais que l'id dans la case 1 du tableau sera 2
 void testRecupIdVersions(void)
 {
@@ -134,23 +122,21 @@ void testCompterLesMoteurs(void)
     nbMoteursB = combienDeMoteurs();
 
     TEST_ASSERT_EQUAL_INT(nbMoteursB, nbMoteursA);
-
-
 }
 
-void testRecupInfosMoteurs(void){
-        
-    setUp();    
+void testRecupInfosMoteurs(void)
+{
+
+    setUp();
 
     nbMoteursA = combienDeMoteurs();
 
     // 21 suffira car la seul partie en char est le type de carburant qui est varchar(20)
-    char tableauDesMoteurs[nbMoteursA*5][21];
+    char tableauDesMoteurs[nbMoteursA * 5][21];
 
     recuperationDesInfosMoteurs(tableauDesMoteurs);
 
     TEST_ASSERT_EQUAL_STRING("0", &tableauDesMoteurs[0][0]);
-
 }
 
 int main(void)
@@ -162,7 +148,6 @@ int main(void)
     RUN_TEST(testMoteurInexistant);
     RUN_TEST(testMoteurSansVersions);
     RUN_TEST(testMoteurExistantEtVersions);
-    RUN_TEST(testRecupVersions);
     RUN_TEST(testRecupIdVersions);
     RUN_TEST(testRecupInfos);
     RUN_TEST(testCompterLesMoteurs);

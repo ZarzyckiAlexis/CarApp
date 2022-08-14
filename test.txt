@@ -1,4 +1,0 @@
-Simple=Log
-`��x��=MDP
-Admin=LogAdmin
-�ؐ��=MDP
