@@ -129,7 +129,7 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
     strcpy(originalNameModele, nameModele);
     strcpy(originalIdMoteur, idMoteur);
     if(erreurFichier(idFile, 0) == 0){  // On essaye de lire le fichier --> Il existe, on continue ; Si pas, on le crée.
-        printf("\nOuverture du fichier idVersions...\n"); // On affiche l'ouverture réussie du fichier
+        //printf("\nOuverture du fichier idVersions...\n"); // On affiche l'ouverture réussie du fichier
         char *id = (char *)malloc(sizeof(int) * 100);
         fgets(id, 100, idFile);
         if(existTableVersions() == 1){ // La table existe!
@@ -284,9 +284,10 @@ void addVersions(char *nameVersion, char *nameModele, char *idMoteur, char *erro
         fclose(idFile);
         idFile = fopen("../source/idVersions.txt", "w"); // On créer un fichier et on l'ouvre en écriture
         if(erreurFichier(idFile, 0) == 0){ // Il n'existe pas, on va le créer
-            printf("Generation du fichier idVersions..."); 
-            char id[] = "1"; // On défini l'ID à 0
-            fputc(id[0], idFile); // On insert l'ID dans l fichier
+            //printf("Generation du fichier idVersions..."); 
+            fputc('1', idFile); // On insert l'ID dans l fichier
+            fclose(idFile);
+            printf("Le fichier a ete creer, veuillez relancer l'ajout.\n");
         }
     }
 }
