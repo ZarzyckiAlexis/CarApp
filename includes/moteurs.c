@@ -14,13 +14,16 @@ int creationTableMoteurs(void)
     if (*resultat != 1)
 
     {
+        initConnexion();
+
         // Création de la rêquete
         sprintf(requeteSQL, "CREATE TABLE moteurs(idMoteur INT, cylindree INT, nombreCylindres INT, puissance INT, typeCarburant VARCHAR(20), PRIMARY KEY(idMoteur) );");
 
         // Exécution de la rêquete
         executerCommandeSQL(requeteSQL);
-        executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('0', '300', '250', '100', 'Diesel');");
-        executerCommandeSQL("INSERT INTO `moteurs` (`idMoteur`, `cylindree`, `nombreCylindres`, `puissance`, `typeCarburant`) VALUES ('1', '250', '120', '250', 'Essence');");
+
+        // Déconnexion de la DB
+        closeConnexion();
 
         free(requeteSQL);
         free(resultat);
@@ -112,40 +115,4 @@ void recuperationDesInfosVersions(char tableauInfosVersions[][51], int tableauId
         }
     }
 }
-
-// Exemple d'utilisation dans le .h
-// Retourne le nombre de moteur dans la db
-int combienDeMoteurs()
-{
-
-    MYSQL_RES *res = NULL;
-    int nbMoteurs = 0;
-
-    res = SqlSelect("SELECT cylindree FROM moteurs");
-
-    nbMoteurs = res->row_count;
-
-    return nbMoteurs;
-}
-
-// Récupération des informations de tout les moteurs
-void recuperationDesInfosMoteurs(char tableauDesMoteurs[][21])
-{
-
-    MYSQL_RES *res = NULL;
-    MYSQL_ROW ligne = NULL;
-    int k = 0;
-
-    res = SqlSelect("SELECT idMoteur, cylindree, nombreCylindres, puissance, typeCarburant FROM moteurs ORDER BY idMoteur");
-
-    // Parcours des lignes pour récupérer les infos moteurs
-    while ((ligne = mysql_fetch_row(res)))
-    {
-
-        for (int i = 0; i != 5; i++, k++)
-        {
-
-            strcpy(&tableauDesMoteurs[k][0], ligne[i]);
-        }
-    }
-}
+    

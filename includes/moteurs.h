@@ -2,7 +2,7 @@
 
 
 // Création de la table pour les moteurs
-int creationTableMoteurs(void);
+int creationTableMoteurs (void);
 // En utilisant le tableau contenant les id des versions qui possède le moteur demander on va rechercher les infos qu'il nous faut
 void recuperationDesInfosVersions(char tableauInfosVersions[][51], int tableauIdVersions[], int nbVersions);
 // Fonction pour récupérer les versions d'un moteur demander
@@ -13,39 +13,12 @@ void recuperationDuResultat(int tableauIdVersions[], MYSQL_RES *res);
 // Récupération des versions équipées de ce moteurs
 MYSQL_RES *recuperationDesVersions(int idMoteur, int *nbVersions);
 
-// Récupération des infos des moteurs
-void recuperationDesInfosMoteurs(char tableauDesMoteurs[][21]);
-// Récupération du nombre de moteurs
-int combienDeMoteurs();
 
 
 
-/*EXEMPLE POUR LA RECUPERATION DE TOUT LE MOTEUR POUR LES AFFICHER 
 
 
-
-    EXEMPLE :
-
-   int main(void)
-{
-
-    int nbMoteurs = 0;
-
-    nbMoteurs = combienDeMoteurs();
-
-    // 21 suffira car la seul partie en char est le type de carburant qui est varchar(20)
-    char tableauDesMoteurs[nbMoteurs*5][21];
-
-    recuperationDesInfosMoteurs(tableauDesMoteurs);
-
-}
-
-
-
-*/
-
-
-/* EXEMPLE NOTER POUR L UTILISATION DANS LE MAIN POUR LA RECUPERATION DES VERSIONS PAR UN MOTEUR
+/* EXEMPLE NOTER POUR L UTILISATION DANS LE MAIN
 int main(void)
 {
     int idMoteur = 0, nbVersions = 0;

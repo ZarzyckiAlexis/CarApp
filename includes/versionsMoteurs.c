@@ -14,15 +14,16 @@ int creationTableVersionsMoteurs(void)
    if (*resultat != 1)
 
    {
+      initConnexion();
 
       // Création de la rêquete
       sprintf(requeteSQL,"CREATE TABLE versions_moteurs(idMoteur INT, idVersion INT, PRIMARY KEY(idMoteur, idVersion), FOREIGN KEY(idMoteur) REFERENCES moteurs(idMoteur), FOREIGN KEY(idVersion) REFERENCES versions(idVersion));");
 
           // Exécution de la rêquete
           executerCommandeSQL(requeteSQL);
-          executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '0');");
-          executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '998');");
-          executerCommandeSQL("INSERT INTO `versions_moteurs` (`idMoteur`, `idVersion`) VALUES ('0', '999');");
+
+      // Déconnexion de la DB
+      closeConnexion();
 
       free(requeteSQL);
       free(resultat);

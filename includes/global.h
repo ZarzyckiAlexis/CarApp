@@ -3,7 +3,7 @@
 #include <string.h>
 #include <mysql.h>
 #include <stdbool.h>
-#define DB_NAME "groupe_b" // Le nom de la base de données
+#define DB_NAME "projet" // Le nom de la base de données
 
 int erreurFichier(FILE *monFichier, int showText);
 // Fonction qui permet la connexion à la base de données

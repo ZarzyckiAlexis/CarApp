@@ -13,21 +13,23 @@ void setUp (void) {
 
 void testCreationTableVersionsMoteurs (void){
 
-
     int *exist = malloc(sizeof(int));
-    int *resultat = malloc(sizeof(int));
+    int resultat;
 
     setUp();
+
+    exist = TableExist("SELECT 1 FROM versions_moteurs LIMIT 1");
+
+    if (*exist == 1){
+        initConnexion();
+        executerCommandeSQL ("DROP TABLE versions_moteurs");
+        closeConnexion();
+    }
+
+    resultat = creationTableVersionsMoteurs();
+
     
-    //Suppression de toutes les tables
-    destroyAllTable();
-
-    //Ajout des tables rien avoir avec cette batterie de test
-    createAllTable();
-
-    resultat = TableExist("SELECT 1 FROM versions_moteurs LIMIT 1");
-
-    TEST_ASSERT_EQUAL_INT(1, *resultat);
+    TEST_ASSERT_EQUAL_INT( 1, resultat);
 
     free(exist);
 
