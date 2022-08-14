@@ -5,11 +5,15 @@
 static int idMoteur;
 static int nbVersions;
 static MYSQL_RES *res;
+static MYSQL_ROW ligne;
 static int tableauIdVersions[3];
+static int nbMoteursA;
+static int nbMoteursB;
 
 void setUp(void)
 {
-
+    nbMoteursA = 0;
+    nbMoteursB = 0;
     idMoteur = 0;
     nbVersions = 0;
     res = NULL;
@@ -24,11 +28,11 @@ void testCreationTableMoteurs(void)
     int *resultat = malloc(sizeof(int));
 
     setUp();
-    
-    //Suppression de toutes les tables
+
+    // Suppression de toutes les tables
     destroyAllTable();
 
-    //Ajout des tables rien avoir avec cette batterie de test
+    // Ajout des tables rien avoir avec cette batterie de test
     createAllTable();
 
     resultat = TableExist("SELECT 1 FROM moteurs LIMIT 1");
@@ -37,7 +41,6 @@ void testCreationTableMoteurs(void)
 
     free(exist);
 }
-
 
 // Des moteurs et versions de test doivent être créer dans la DB pour ces tests
 
@@ -116,6 +119,40 @@ void testRecupInfos(void)
     TEST_ASSERT_EQUAL_STRING("1990 T18", &tableauInfosVersions[0][0]);
 }
 
+void testCompterLesMoteurs(void)
+{
+
+    setUp();
+
+    res = SqlSelect("SELECT COUNT(cylindree) FROM moteurs");
+
+    ligne = mysql_fetch_row(res);
+    nbMoteursA = atoi(*ligne);
+
+    mysql_free_result(res);
+
+    nbMoteursB = combienDeMoteurs();
+
+    TEST_ASSERT_EQUAL_INT(nbMoteursB, nbMoteursA);
+
+
+}
+
+void testRecupInfosMoteurs(void){
+        
+    setUp();    
+
+    nbMoteursA = combienDeMoteurs();
+
+    // 21 suffira car la seul partie en char est le type de carburant qui est varchar(20)
+    char tableauDesMoteurs[nbMoteursA*5][21];
+
+    recuperationDesInfosMoteurs(tableauDesMoteurs);
+
+    TEST_ASSERT_EQUAL_STRING("0", &tableauDesMoteurs[0][0]);
+
+}
+
 int main(void)
 {
 
@@ -128,6 +165,8 @@ int main(void)
     RUN_TEST(testRecupVersions);
     RUN_TEST(testRecupIdVersions);
     RUN_TEST(testRecupInfos);
+    RUN_TEST(testCompterLesMoteurs);
+    RUN_TEST(testRecupInfosMoteurs);
 
     UNITY_END();
 }
