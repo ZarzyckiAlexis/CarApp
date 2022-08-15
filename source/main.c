@@ -106,13 +106,15 @@ int main(void)
             case 1:
             getVersions(versions, count);
             system("cls");
-            for(int i=0; i<*count/3; i++){
-            printf("Versions : %s Modele: %s Marque: %s \n", versions[i*3], versions[i*3+1], versions[i*3+2]);
-            }
-            printf("\n");
+            printf("======= Moteurs =======\n\n");
             recuperationDesInfosMoteurs(tableauDesMoteurs);
             for(int i=0; i<nbMoteur; i++){
             printf("IdMoteur : %s Cylindree: %s nombreCylindres: %s Puissance: %s Carburant: %s \n", tableauDesMoteurs[i*5], tableauDesMoteurs[i*5+1], tableauDesMoteurs[i*5+2], tableauDesMoteurs[i*5+3], tableauDesMoteurs[i*5+4]);
+            }
+            printf("\n");
+            printf("======= Versions =======\n\n");
+            for(int i=0; i<*count/3; i++){
+            printf("Versions : %s Modele: %s Marque: %s \n", versions[i*3], versions[i*3+1], versions[i*3+2]);
             }
             printf("\n");
             printf("Appuyez sur une touche de votre clavier pour continuer\n");
