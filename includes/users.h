@@ -23,7 +23,7 @@ But :   Fichier contenant tout les #includes,#define
 // fonction pour lister les utilisateur
 void lister_uti();
 // fonction pour l'ajout
-void menu_ajouter(char *rang);
+unsigned menu_ajouter(char *rang);
 unsigned ajouter(FILE *fichier,char *log, char *mdp, int dim, char *rang);
 // fonction pour la suppression
 unsigned menu_supprimer();
@@ -37,4 +37,3 @@ unsigned identification(char *log, char *mdp, int dim);
 // fonction commune
 unsigned check_existe(char *log, int dim, FILE *fichier);
 void chiffrement(char *log, char *mdp, int dim);
-unsigned erreur_fichier(FILE *fichier);
