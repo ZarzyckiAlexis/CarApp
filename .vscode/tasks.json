@@ -63,7 +63,7 @@
         {
             "type": "process",
             "label": "Executer les tests Versions",
-            "command": "${workspaceFolder}\\tests\\versions.exe",
+            "command": "${workspaceFolder}\\tests\\testVersions.exe",
             "args": [],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -168,6 +168,12 @@
                 "-isystem",
 				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/include/",
                 "${workspaceFolder}\\unity\\*.c",
+                "${workspaceFolder}\\includes\\versions.c",
+                "${workspaceFolder}\\includes\\versions.h",
+                "${workspaceFolder}\\includes\\moteurs.c",
+                "${workspaceFolder}\\includes\\moteurs.h",
+                "${workspaceFolder}\\includes\\versionsMoteurs.c",
+                "${workspaceFolder}\\includes\\versionsMoteurs.h",
                 "${workspaceFolder}\\includes\\users.c",
                 "${workspaceFolder}\\includes\\users.h",
                 "-o",
