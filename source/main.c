@@ -7,7 +7,6 @@ But :   Menu de l'application de gestion des utilsateurs,
 
 // INCLUDE
 #include "../includes\users.c"
-#include "../includes\global.c"
 #include "../includes\versions.c"
 #include "../includes\moteurs.c"
 #include "../includes\versionsMoteurs.c"

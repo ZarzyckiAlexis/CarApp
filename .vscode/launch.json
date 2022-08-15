@@ -8,7 +8,7 @@
             "name": "Compiler et debugger le fichier actif",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "program": "${workspaceFolder}/tests/testVersions.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
@@ -23,7 +23,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Compiler le fichier actif"
+            "preLaunchTask": "Compiler Test Versions"
         }
     ]
 }
