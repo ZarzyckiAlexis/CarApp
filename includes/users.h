@@ -37,3 +37,4 @@ unsigned identification(char *log, char *mdp, int dim);
 // fonction commune
 unsigned check_existe(char *log, int dim, FILE *fichier);
 void chiffrement(char *log, char *mdp, int dim);
+unsigned erreur_fichier(FILE *fichier);
