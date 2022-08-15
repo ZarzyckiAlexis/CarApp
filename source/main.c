@@ -7,6 +7,7 @@ But :   Menu de l'application de gestion des utilsateurs,
 
 // INCLUDE
 #include "../includes\users.c"
+#include "../includes\global.c"
 #include "../includes\versions.c"
 #include "../includes\moteurs.c"
 #include "../includes\versionsMoteurs.c"
@@ -38,7 +39,7 @@ int main(void)
     {
         //On regarde si le fichier est vide pour savoir s'il est le premier pour le mettre admin
         FILE * fichier=fopen("users.txt","r" );
-        if (erreurDeFichier(fichier))
+        if (erreurFichier(fichier,1))
         {
             return 0;
         }

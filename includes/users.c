@@ -3,6 +3,7 @@ Auteur : Noah Verly
 But :   Fichier avec le code des fonctions
 */
 #include "users.h"
+#include "global.h"
 
 
 /*FONCTION LISTER LES UTILISATEUR ET LEUR GRADE*/
@@ -13,10 +14,7 @@ void lister_uti()
     char buff[DIM];
     // TRAITEMENT
     fichier = fopen(NAME_FICHIER, "r"); // Ouverture du fichier
-    if (erreurDeFichier(fichier))
-        {
-            return 0;
-        }
+    erreurFichier(fichier,1);
     rewind(fichier);
     printf("\t\tListe des utilisateurs :\n");
     printf("\t\t=======================\n\n");
@@ -36,7 +34,7 @@ void lister_uti()
 }
 
 /*FONCTION D'AJOUT*/
-void menu_ajouter(char *rang)
+unsigned menu_ajouter(char *rang)
 {
     // DECLARATION DES VARIABLES
     FILE *fichier;
@@ -48,7 +46,7 @@ void menu_ajouter(char *rang)
     printf("\t\tAJOUTER UN UTILISATEUR\n");
     printf("\t=====================================");
     fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
-    if (erreurDeFichier(fichier))
+    if (erreurFichier(fichier,1))
         {
             return 0;
         }
@@ -206,7 +204,7 @@ unsigned menu_supprimer()
         fflush(stdin);
         scanf("%c", &rep);
         fichier = fopen(NAME_FICHIER, "r"); // Ouverture du fichier
-        if (erreurDeFichier(fichier))
+        if (erreurFichier(fichier,1))
         {
             return 0;
         }
@@ -286,7 +284,7 @@ unsigned supprimer(FILE *fichier, char *log, int dim)
         strcat(log_admin, "=LogAdmin"); // Permet de concat?nner deux cha?nes de caract?res
         //On va cree un nouveau fichier
         newfichier = fopen("users2.txt", "w");
-        if (erreurDeFichier(newfichier))
+        if (erreurFichier(newfichier,1))
         {
             return 0;
         }
@@ -347,7 +345,7 @@ unsigned menu_modifier()
         return 0;
     }
     fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
-    if (erreurDeFichier(fichier))
+    if (erreurFichier(fichier,1))
         {
             return 0;
         }
@@ -429,7 +427,7 @@ unsigned modifier(FILE *fichier, char *log_actu, char *log, char *mdp, int dim)
     {
         supprimer(fichier, cpy_log_actu, dim);
         fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
-        if (erreurDeFichier(fichier))
+        if (erreurFichier(fichier,1))
         {
             return 0;
         }
@@ -445,7 +443,7 @@ unsigned modifier(FILE *fichier, char *log_actu, char *log, char *mdp, int dim)
     {
         supprimer(fichier, cpy_log_actu, dim);
         fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
-        if (erreurDeFichier(fichier))
+        if (erreurFichier(fichier,1))
         {
             return 0;
         }
@@ -500,7 +498,7 @@ unsigned identification(char *log, char *mdp, int dim)
     char buff[dim];
     // TRAITEMENT
     fichier = fopen(NAME_FICHIER, "a+"); // Ouverture du fichier
-    if (erreurDeFichier(fichier))
+    if (erreurFichier(fichier,1))
         {
             return 0;
         }
@@ -544,23 +542,4 @@ unsigned identification(char *log, char *mdp, int dim)
     }
     else
         return 0;
-}
-int erreurDeFichier(FILE *monFichier)
-{
-    if (monFichier == NULL)
-    {
-    int erreur = errno;
-    printf("Erreur d'ouverture %d. ", erreur);
-    switch (erreur)
-    {
-    case ENOENT:
-        printf("Le fichier n'existe pas.\n");
-        break;
-    default:
-        printf("Autre erreur.\n");
-        break;
-    }
-    return 1;
-    }
-    return 0;
 }
