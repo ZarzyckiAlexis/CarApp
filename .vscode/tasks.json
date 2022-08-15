@@ -46,7 +46,7 @@
                 "${workspaceFolder}\\includes\\versionsMoteurs.c",
                 "${workspaceFolder}\\includes\\versionsMoteurs.h",
                 "-o",
-                "${workspaceFolder}\\tests\\versions.exe",
+                "${workspaceFolder}\\tests\\testVersions.exe",
                 "-L",
 				"C:/Program Files/MariaDB/MariaDB Connector C 64-bit/lib/",
 				"-l",
